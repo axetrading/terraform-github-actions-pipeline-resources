@@ -5,8 +5,8 @@ resource "aws_s3_bucket" "artifacts" {
 resource "aws_s3_bucket_public_access_block" "artifacts" {
   bucket = aws_s3_bucket.artifacts.id
 
-  block_public_acls   = true
-  block_public_policy = true
+  block_public_acls       = true
+  block_public_policy     = true
   restrict_public_buckets = true
 }
 

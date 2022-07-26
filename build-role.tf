@@ -1,18 +1,18 @@
 
 data "aws_iam_policy_document" "build_assume_role_policy" {
   statement {
-    actions = [ "sts:AssumeRole" ]
-    effect = "Allow"
+    actions = ["sts:AssumeRole"]
+    effect  = "Allow"
     principals {
       type        = "AWS"
-      identifiers = [ data.aws_caller_identity.current.account_id ]
+      identifiers = [data.aws_caller_identity.current.account_id]
     }
   }
 }
 
 resource "aws_iam_role" "build" {
-  name_prefix           = "${var.name}-build"
-  assume_role_policy    = data.aws_iam_policy_document.build_assume_role_policy.json
+  name_prefix        = "${var.name}-build"
+  assume_role_policy = data.aws_iam_policy_document.build_assume_role_policy.json
 }
 
 resource "aws_iam_policy" "build" {
@@ -28,19 +28,19 @@ data "aws_iam_policy_document" "build" {
   # permissions for using tfstate and tflocks
   statement {
     effect = "Allow"
-    actions   = [
+    actions = [
       "s3:GetBucketLocation",
       "s3:ListBucket"
     ]
-    resources = [ "arn:aws:s3:::${var.tfstate_bucket_name}" ]
+    resources = ["arn:aws:s3:::${var.tfstate_bucket_name}"]
   }
   statement {
     effect = "Allow"
-    actions   = [
+    actions = [
       "s3:GetObject",
       "s3:PutObject"
     ]
-    resources = [ "arn:aws:s3:::${var.tfstate_bucket_name}/${var.name}/*" ]
+    resources = ["arn:aws:s3:::${var.tfstate_bucket_name}/${var.name}/*"]
   }
   statement {
     effect = "Allow"
@@ -51,18 +51,18 @@ data "aws_iam_policy_document" "build" {
       "dynamodb:Query",
       "dynamodb:UpdateItem"
     ]
-    resources = [ data.aws_dynamodb_table.tflocks.arn ]
+    resources = [data.aws_dynamodb_table.tflocks.arn]
     condition {
       test     = "StringLike"
       variable = "dynamodb:LeadingKeys"
-      values   = [ "${var.tfstate_bucket_name}/${var.name}/*" ]
+      values   = ["${var.tfstate_bucket_name}/${var.name}/*"]
     }
   }
   # permissions for provisioning resources
   statement {
-    effect = "Allow"
-    actions = formatlist("%s:*", var.allow_provisioning_services)
-    resources = [ "*" ]
+    effect    = "Allow"
+    actions   = formatlist("%s:*", var.allow_provisioning_services)
+    resources = ["*"]
   }
 }
 
