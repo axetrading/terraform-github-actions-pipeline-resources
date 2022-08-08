@@ -28,6 +28,16 @@ data "aws_iam_policy_document" "build" {
   statement {
     effect = "Allow"
     actions = [
+      "s3:ListAllMyBuckets"
+    ]
+    resources = [
+      "*"
+    ]
+  }
+
+  statement {
+    effect = "Allow"
+    actions = [
       "s3:GetBucketLocation",
       "s3:ListBucket"
     ]

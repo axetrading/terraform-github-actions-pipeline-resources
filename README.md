@@ -53,6 +53,7 @@ Resources to support a AWS CodePipeline.
 
 | Name | Description |
 |------|-------------|
+| <a name="output_artifacts_bucket_arn"></a> [artifacts\_bucket\_arn](#output\_artifacts\_bucket\_arn) | ARN of the bucket for the pipeline to store artifacts. |
 | <a name="output_artifacts_bucket_name"></a> [artifacts\_bucket\_name](#output\_artifacts\_bucket\_name) | Name of the bucket for the pipeline to store artifacts. |
 | <a name="output_build_role_arn"></a> [build\_role\_arn](#output\_build\_role\_arn) | ARN for the role to assume for the builds |
 | <a name="output_pipeline_role_arn"></a> [pipeline\_role\_arn](#output\_pipeline\_role\_arn) | ARN for the role to attach to the CodePipeline, allowing access ot the artifacts bucket, CodeCommit repo and CodeBuild builds. |

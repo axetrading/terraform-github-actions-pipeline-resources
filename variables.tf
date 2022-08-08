@@ -14,13 +14,13 @@ variable "tflocks_table_name" {
 }
 
 variable "allow_provisioning_services" {
-  type        = list(any)
+  type        = list(string)
   description = "AWS service to add to the policy for provisioning (e.g. \"s3\")"
   default     = []
 }
 
 variable "build_arns" {
-  type        = list(any)
+  type        = list(string)
   description = "CodeBuild build ARNs to allow the pipeline to run"
   default     = []
 }
