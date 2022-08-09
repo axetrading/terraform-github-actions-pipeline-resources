@@ -93,3 +93,8 @@ resource "aws_iam_role_policy_attachment" "build_view_only" {
   role       = aws_iam_role.build.id
 }
 
+resource "aws_iam_role_policy_attachment" "build_policy" {
+  for_each   = toset(build_policy_arns)
+  policy_arn = each.key
+  role       = aws_iam_role.build.id
+}

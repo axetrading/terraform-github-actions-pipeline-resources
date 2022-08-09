@@ -27,6 +27,12 @@ variable "build_arns" {
 
 variable "assume_role_arns" {
   type        = list(string)
-  description = "IAM Roles ARNs to allow CodeBuild and CodePipeline from the current account to create resources in other AWS accounts. "
+  description = "IAM Roles ARNs to allow the build role to assume"
+  default     = []
+}
+
+variable "build_policy_arns" {
+  type        = list(string)
+  description = "IAM Policy ARNs to attach to the build role"
   default     = []
 }
