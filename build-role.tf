@@ -73,6 +73,14 @@ data "aws_iam_policy_document" "build" {
     actions   = formatlist("%s:*", var.allow_provisioning_services)
     resources = ["*"]
   }
+  dynamic "statement" {
+    for_each = length(var.assume_role_arns) > 0 ? [1] : []
+    content {
+      actions   = ["sts:AssumeRole"]
+      resources = var.assume_role_arns
+      effect    = "Allow"
+    }
+  }
 }
 
 resource "aws_iam_role_policy_attachment" "build" {
