@@ -62,7 +62,7 @@ data "aws_iam_policy_document" "build" {
     ]
     resources = [data.aws_dynamodb_table.tflocks.arn]
     condition {
-      test     = "StringLike"
+      test     = "ForAllValues:StringLike"
       variable = "dynamodb:LeadingKeys"
       values   = ["${var.tfstate_bucket_name}/${var.name}/*"]
     }
@@ -87,3 +87,9 @@ resource "aws_iam_role_policy_attachment" "build" {
   policy_arn = aws_iam_policy.build.arn
   role       = aws_iam_role.build.id
 }
+
+resource "aws_iam_role_policy_attachment" "build_view_only" {
+  policy_arn = "arn:aws:iam::aws:policy/job-function/ViewOnlyAccess"
+  role       = aws_iam_role.build.id
+}
+
