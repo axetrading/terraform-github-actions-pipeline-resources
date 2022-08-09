@@ -74,7 +74,7 @@ data "aws_iam_policy_document" "build" {
     resources = ["*"]
   }
   dynamic "statement" {
-    for_each = length(var.build_arns) > 0 ? [1] : []
+    for_each = length(var.assume_role_arns) > 0 ? [1] : []
     content {
       actions   = ["sts:AssumeRole"]
       resources = var.assume_role_arns
