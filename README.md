@@ -14,7 +14,7 @@ Resources to support a AWS CodePipeline.
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | ~> 4.22 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | 4.25.0 |
 
 ## Resources
 
@@ -43,8 +43,9 @@ Resources to support a AWS CodePipeline.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_allow_provisioning_services"></a> [allow\_provisioning\_services](#input\_allow\_provisioning\_services) | AWS service to add to the policy for provisioning (e.g. "s3") | `list(any)` | `[]` | no |
-| <a name="input_build_arns"></a> [build\_arns](#input\_build\_arns) | CodeBuild build ARNs to allow the pipeline to run | `list(any)` | `[]` | no |
+| <a name="input_allow_provisioning_services"></a> [allow\_provisioning\_services](#input\_allow\_provisioning\_services) | AWS service to add to the policy for provisioning (e.g. "s3") | `list(string)` | `[]` | no |
+| <a name="input_assume_role_arns"></a> [assume\_role\_arns](#input\_assume\_role\_arns) | IAM Roles ARNs to allow CodeBuild and CodePipeline from the current account to create resources in other AWS accounts. | `list(string)` | n/a | yes |
+| <a name="input_build_arns"></a> [build\_arns](#input\_build\_arns) | CodeBuild build ARNs to allow the pipeline to run | `list(string)` | `[]` | no |
 | <a name="input_name"></a> [name](#input\_name) | Name of the repo, used to name resources to make it easy to find the source | `string` | n/a | yes |
 | <a name="input_tflocks_table_name"></a> [tflocks\_table\_name](#input\_tflocks\_table\_name) | DynamoDB table to use to lock Terraform state | `string` | n/a | yes |
 | <a name="input_tfstate_bucket_name"></a> [tfstate\_bucket\_name](#input\_tfstate\_bucket\_name) | Bucket to store tfstate, in order to set up permissions | `string` | n/a | yes |
