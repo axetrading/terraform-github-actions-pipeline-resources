@@ -32,6 +32,6 @@ variable "build_policy_arns" {
 }
 
 variable "admin_team" {
-  type = string
+  type        = string
   description = "Name of one team to assign admin to - while it is possible to have mutliple teams with admin, our policy is to have one (it denotes responsibility of that team)."
 }
