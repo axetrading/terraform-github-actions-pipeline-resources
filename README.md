@@ -52,7 +52,6 @@ the `owner` GitHub provider config in the caller.
 |------|-------------|------|---------|:--------:|
 | <a name="input_allow_provisioning_services"></a> [allow\_provisioning\_services](#input\_allow\_provisioning\_services) | AWS service to add to the policy for provisioning (e.g. "s3") | `list(string)` | `[]` | no |
 | <a name="input_assume_role_arns"></a> [assume\_role\_arns](#input\_assume\_role\_arns) | IAM Roles ARNs to allow the build role to assume | `list(string)` | `[]` | no |
-| <a name="input_build_arns"></a> [build\_arns](#input\_build\_arns) | CodeBuild build ARNs to allow the pipeline to run | `list(string)` | `[]` | no |
 | <a name="input_build_policy_arns"></a> [build\_policy\_arns](#input\_build\_policy\_arns) | IAM Policy ARNs to attach to the build role | `list(string)` | `[]` | no |
 | <a name="input_name"></a> [name](#input\_name) | Name of the repo, used to name resources to make it easy to find the source | `string` | n/a | yes |
 | <a name="input_tflocks_table_name"></a> [tflocks\_table\_name](#input\_tflocks\_table\_name) | DynamoDB table to use to lock Terraform state | `string` | n/a | yes |
