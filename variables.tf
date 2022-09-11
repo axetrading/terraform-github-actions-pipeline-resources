@@ -19,12 +19,6 @@ variable "allow_provisioning_services" {
   default     = []
 }
 
-variable "build_arns" {
-  type        = list(string)
-  description = "CodeBuild build ARNs to allow the pipeline to run"
-  default     = []
-}
-
 variable "assume_role_arns" {
   type        = list(string)
   description = "IAM Roles ARNs to allow the build role to assume"
