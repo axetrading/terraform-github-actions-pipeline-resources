@@ -30,3 +30,8 @@ variable "build_policy_arns" {
   description = "IAM Policy ARNs to attach to the build role"
   default     = []
 }
+
+variable "admin_team" {
+  type = string
+  description = "Name of one team to assign admin to - while it is possible to have mutliple teams with admin, our policy is to have one (it denotes responsibility of that team)."
+}
