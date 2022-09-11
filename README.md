@@ -1,7 +1,18 @@
 <!-- BEGIN_TF_DOCS -->
-# Pipeline Resources Terraform Module
+# GitHub Actions Pipeline Resources Terraform Module
 
-Resources to support a AWS CodePipeline.
+Resources to support a repo and pipeline in GitHub.
+
+This module creates a GitHub repo with an AWS IAM Role that
+an actions pipeline within the repo can assume. This is
+achieved without having to manage any credentials. Auth for
+assuming the role is achieved with GitHub's OIDC provider
+and identity federation - see:
+
+https://github.com/aws-actions/configure-aws-credentials
+
+Note that you have to configure the GitHub organisation via
+the `owner` GitHub provider config in the caller.
 
 ## Requirements
 
@@ -9,36 +20,30 @@ Resources to support a AWS CodePipeline.
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.2.0 |
 | <a name="requirement_aws"></a> [aws](#requirement\_aws) | ~> 4.22 |
+| <a name="requirement_github"></a> [github](#requirement\_github) | ~> 4.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
 | <a name="provider_aws"></a> [aws](#provider\_aws) | 4.25.0 |
+| <a name="provider_github"></a> [github](#provider\_github) | ~> 4.0 |
 
 ## Resources
 
 | Name | Type |
 |------|------|
-| [aws_codecommit_repository.repo](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/codecommit_repository) | resource |
 | [aws_iam_policy.build](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_policy) | resource |
-| [aws_iam_policy.pipeline](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_policy) | resource |
 | [aws_iam_role.build](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role) | resource |
-| [aws_iam_role.pipeline](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role) | resource |
 | [aws_iam_role_policy_attachment.build](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment) | resource |
 | [aws_iam_role_policy_attachment.build_policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment) | resource |
 | [aws_iam_role_policy_attachment.build_view_only](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment) | resource |
-| [aws_iam_role_policy_attachment.pipeline](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment) | resource |
-| [aws_s3_bucket.artifacts](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket) | resource |
-| [aws_s3_bucket_ownership_controls.artifacts](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_ownership_controls) | resource |
-| [aws_s3_bucket_public_access_block.artifacts](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_public_access_block) | resource |
-| [aws_s3_bucket_server_side_encryption_configuration.artifacts](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_server_side_encryption_configuration) | resource |
+| [github_repository.this](https://registry.terraform.io/providers/integrations/github/latest/docs/resources/repository) | resource |
 | [aws_caller_identity.current](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/caller_identity) | data source |
 | [aws_dynamodb_table.tflocks](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/dynamodb_table) | data source |
+| [aws_iam_openid_connect_provider.github_oidc_provider](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_openid_connect_provider) | data source |
 | [aws_iam_policy_document.build](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
 | [aws_iam_policy_document.build_assume_role_policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
-| [aws_iam_policy_document.pipeline](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
-| [aws_iam_policy_document.pipeline_assume_role_policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
 | [aws_region.current](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/region) | data source |
 
 ## Inputs
@@ -57,10 +62,7 @@ Resources to support a AWS CodePipeline.
 
 | Name | Description |
 |------|-------------|
-| <a name="output_artifacts_bucket_arn"></a> [artifacts\_bucket\_arn](#output\_artifacts\_bucket\_arn) | ARN of the bucket for the pipeline to store artifacts. |
-| <a name="output_artifacts_bucket_name"></a> [artifacts\_bucket\_name](#output\_artifacts\_bucket\_name) | Name of the bucket for the pipeline to store artifacts. |
 | <a name="output_build_role_arn"></a> [build\_role\_arn](#output\_build\_role\_arn) | ARN for the role to assume for the builds |
-| <a name="output_pipeline_role_arn"></a> [pipeline\_role\_arn](#output\_pipeline\_role\_arn) | ARN for the role to attach to the CodePipeline, allowing access ot the artifacts bucket, CodeCommit repo and CodeBuild builds. |
 | <a name="output_repo_name"></a> [repo\_name](#output\_repo\_name) | Name of the repo |
-| <a name="output_repo_url"></a> [repo\_url](#output\_repo\_url) | git-remote-codecommmit URL for the repo |
+| <a name="output_repo_url"></a> [repo\_url](#output\_repo\_url) | URL of the repo |
 <!-- END_TF_DOCS -->
