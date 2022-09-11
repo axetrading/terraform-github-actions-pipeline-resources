@@ -9,7 +9,7 @@ data "github_team" "admin_team" {
 }
 
 resource "github_team_repository" "admin" {
-  team_id    = github_team.admin_team.id
+  team_id    = data.github_team.admin_team.id
   repository = var.name
   permission = "admin"
 }
