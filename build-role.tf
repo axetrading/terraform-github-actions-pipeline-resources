@@ -1,21 +1,26 @@
 data "aws_iam_policy_document" "build_assume_role_policy" {
   statement {
-    actions = ["sts:AssumeRole"]
+    actions = ["sts:AssumeRoleWithWebIdentity"]
     effect  = "Allow"
     principals {
-      type        = "AWS"
-      identifiers = [data.aws_caller_identity.current.account_id]
+      type        = "Federated"
+      identifiers = [data.aws_iam_openid_connect_provider.github_oidc_provider.arn]
+    }
+    condition {
+      test     = "StringLike"
+      variable = "token.actions.githubusercontent.com:sub"
+      values   = ["repo:${github_repository.this.full_name}:*"]
     }
   }
 }
 
 resource "aws_iam_role" "build" {
-  name_prefix        = "${var.name}-build"
+  name               = "${var.name}-actions-build"
   assume_role_policy = data.aws_iam_policy_document.build_assume_role_policy.json
 }
 
 resource "aws_iam_policy" "build" {
-  name_prefix = "${var.name}-build"
+  name_prefix = "${var.name}-actions-build"
   policy      = data.aws_iam_policy_document.build.json
 }
 
