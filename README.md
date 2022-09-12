@@ -14,6 +14,11 @@ https://github.com/aws-actions/configure-aws-credentials
 Note that you have to configure the GitHub organisation via
 the `owner` GitHub provider config in the caller.
 
+To run the tests (don't currently test any behaviour, just
+provisioning and destroying) you need to have a GITHUB\_TOKEN
+exported that's a PAT (Personal Access Token) with the
+`repo` and `read:org` oauth scopes.
+
 ## Requirements
 
 | Name | Version |
