@@ -19,6 +19,10 @@ provisioning and destroying) you need to have a GITHUB\_TOKEN
 exported that's a PAT (Personal Access Token) with the
 `repo` and `read:org` oauth scopes.
 
+Due to a bug (https://github.com/integrations/terraform-provider-github/issues/823)
+you currently have to set the `GITHUB_OWNER` (owner) provider
+config via an environment variable rather than as provider config in terraform.  
+
 ## Requirements
 
 | Name | Version |
