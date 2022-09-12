@@ -13,25 +13,19 @@
  *
  * Note that you have to configure the GitHub organisation via
  * the `owner` GitHub provider config in the caller.
- *
- * To run the tests (don't currently test any behaviour, just
- * provisioning and destroying) you need to have a GITHUB_TOKEN
- * exported that's a PAT (Personal Access Token) with the
- * `repo` and `read:org` oauth scopes.
  */
 
-resource "github_repository" "this" {
-  name               = var.name
-  visibility         = "private"
-  archive_on_destroy = true
-}
+terraform {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 4.22"
+    }
+    github = {
+      source  = "integrations/github"
+      version = "~> 4.0"
+    }
+  }
 
-data "github_team" "admin_team" {
-  slug = var.admin_team
-}
-
-resource "github_team_repository" "admin" {
-  team_id    = data.github_team.admin_team.id
-  repository = var.name
-  permission = "admin"
+  required_version = ">= 1.2.0"
 }
