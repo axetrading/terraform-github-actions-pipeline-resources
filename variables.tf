@@ -47,8 +47,7 @@ variable "branch_protections" {
     })
     required_pull_request_reviews = object({
       dismiss_stale_reviews           = bool
-      dismissal_users                 = list(string)
-      dismissal_teams                 = list(string)
+      dismissal_restrictions          = list(string)
       require_code_owner_reviews      = bool
       required_approving_review_count = number
     })

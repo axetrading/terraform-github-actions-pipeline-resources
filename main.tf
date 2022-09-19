@@ -68,13 +68,14 @@ resource "github_branch_protection" "main" {
     contexts = each.value["required_status_checks"]["contexts"]
   }
 
-  #required_pull_request_reviews {
-  #  dismiss_stale_reviews = true
-  #  restrict_dismissals   = true
-  #  dismissal_restrictions = [
-  #    data.github_team.admin_team.id
-  #  ]
-  #}
+  required_pull_request_reviews {
+    dismiss_stale_reviews = each.value["required_pull_request_reviews"]["dismiss_stale_reviews"]
+    dismissal_restrictions = [
+      data.github_team.admin_team.id
+    ]
+    require_code_owner_reviews = each.value["required_pull_request_reviews"]["require_code_owner_reviews"]
+    required_approving_review_count = each.value["required_pull_request_reviews"]["required_approving_review_count"]
+  }
 
 
 }
