@@ -73,7 +73,7 @@ resource "github_branch_protection" "main" {
     dismissal_restrictions = [
       data.github_team.admin_team.id
     ]
-    require_code_owner_reviews = each.value["required_pull_request_reviews"]["require_code_owner_reviews"]
+    require_code_owner_reviews      = each.value["required_pull_request_reviews"]["require_code_owner_reviews"]
     required_approving_review_count = each.value["required_pull_request_reviews"]["required_approving_review_count"]
   }
 
