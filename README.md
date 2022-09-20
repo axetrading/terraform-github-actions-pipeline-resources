@@ -31,8 +31,8 @@ exported that's a PAT (Personal Access Token) with the
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | 4.31.0 |
-| <a name="provider_github"></a> [github](#provider\_github) | 4.31.0 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | ~> 4.22 |
+| <a name="provider_github"></a> [github](#provider\_github) | ~> 4.0 |
 
 ## Resources
 
@@ -43,8 +43,7 @@ exported that's a PAT (Personal Access Token) with the
 | [aws_iam_role_policy_attachment.build](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment) | resource |
 | [aws_iam_role_policy_attachment.build_policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment) | resource |
 | [aws_iam_role_policy_attachment.build_view_only](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment) | resource |
-| [github_branch.main](https://registry.terraform.io/providers/integrations/github/latest/docs/resources/branch) | resource |
-| [github_branch_default.default](https://registry.terraform.io/providers/integrations/github/latest/docs/resources/branch_default) | resource |
+| [github_branch.this](https://registry.terraform.io/providers/integrations/github/latest/docs/resources/branch) | resource |
 | [github_branch_protection.main](https://registry.terraform.io/providers/integrations/github/latest/docs/resources/branch_protection) | resource |
 | [github_repository.this](https://registry.terraform.io/providers/integrations/github/latest/docs/resources/repository) | resource |
 | [github_team_repository.admin](https://registry.terraform.io/providers/integrations/github/latest/docs/resources/team_repository) | resource |
@@ -63,9 +62,11 @@ exported that's a PAT (Personal Access Token) with the
 | <a name="input_admin_team"></a> [admin\_team](#input\_admin\_team) | Name of one team to assign admin to - while it is possible to have mutliple teams with admin, our policy is to have one (it denotes responsibility of that team). | `string` | n/a | yes |
 | <a name="input_allow_provisioning_services"></a> [allow\_provisioning\_services](#input\_allow\_provisioning\_services) | AWS service to add to the policy for provisioning (e.g. "s3") | `list(string)` | `[]` | no |
 | <a name="input_assume_role_arns"></a> [assume\_role\_arns](#input\_assume\_role\_arns) | IAM Roles ARNs to allow the build role to assume | `list(string)` | `[]` | no |
+| <a name="input_auto_init"></a> [auto\_init](#input\_auto\_init) | (Optional) Set to true to produce an initial commit in the repository. | `bool` | `false` | no |
 | <a name="input_branch_protections"></a> [branch\_protections](#input\_branch\_protections) | Map of branch protections that will be applied to github repo branches | <pre>map(object({<br>    pattern          = string<br>    enforce_admins   = bool<br>    allows_deletions = bool<br>    required_status_checks = object({<br>      strict   = bool<br>      contexts = list(string)<br>    })<br>    required_pull_request_reviews = object({<br>      dismiss_stale_reviews           = bool<br>      restrict_dismissals             = bool<br>      dismissal_restrictions          = list(string)<br>      require_code_owner_reviews      = bool<br>      required_approving_review_count = number<br>    })<br>  }))</pre> | `{}` | no |
+| <a name="input_branches_to_create"></a> [branches\_to\_create](#input\_branches\_to\_create) | Branches to create on github repo. | `set(string)` | `[]` | no |
 | <a name="input_build_policy_arns"></a> [build\_policy\_arns](#input\_build\_policy\_arns) | IAM Policy ARNs to attach to the build role | `list(string)` | `[]` | no |
-| <a name="input_create_main_branch"></a> [create\_main\_branch](#input\_create\_main\_branch) | Create the main branch of your github repo. | `bool` | `true` | no |
+| <a name="input_create_branch"></a> [create\_branch](#input\_create\_branch) | Create the main branch of your github repo. | `bool` | `true` | no |
 | <a name="input_enable_branch_protection"></a> [enable\_branch\_protection](#input\_enable\_branch\_protection) | Enable Github Branch protections on your github repo. | `bool` | `false` | no |
 | <a name="input_name"></a> [name](#input\_name) | Name of the repo, used to name resources to make it easy to find the source | `string` | n/a | yes |
 | <a name="input_tflocks_table_name"></a> [tflocks\_table\_name](#input\_tflocks\_table\_name) | DynamoDB table to use to lock Terraform state | `string` | n/a | yes |
