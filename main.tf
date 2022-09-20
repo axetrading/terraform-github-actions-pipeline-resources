@@ -21,6 +21,7 @@
  */
 
 locals {
+  branches           = var.branches_to_create != [] && var.branches_to_create != null ? [for branch in var.branches_to_create : branch if branch != "main"] : []
   branch_protections = var.enable_branch_protection && var.branch_protections != null ? var.branch_protections : {}
 
 }
@@ -28,20 +29,14 @@ locals {
 resource "github_repository" "this" {
   name               = var.name
   visibility         = "private"
-  archive_on_destroy = true
+  archive_on_destroy = false
+  auto_init          = var.auto_init
 }
 
-resource "github_branch" "main" {
-  count      = var.create_main_branch ? 1 : 0
+resource "github_branch" "this" {
+  for_each   = toset(local.branches)
   repository = github_repository.this.name
-  branch     = "main"
-}
-
-resource "github_branch_default" "default" {
-  count = var.create_main_branch ? 1 : 0
-
-  repository = github_repository.this.name
-  branch     = github_branch.main[0].branch
+  branch     = each.key
 }
 
 data "github_team" "admin_team" {
