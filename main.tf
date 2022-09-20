@@ -29,7 +29,7 @@ locals {
 resource "github_repository" "this" {
   name               = var.name
   visibility         = "private"
-  archive_on_destroy = false
+  archive_on_destroy = true
   auto_init          = var.auto_init
 }
 
