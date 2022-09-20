@@ -70,7 +70,7 @@ resource "github_branch_protection" "main" {
 
   required_pull_request_reviews {
     dismiss_stale_reviews = each.value["required_pull_request_reviews"]["dismiss_stale_reviews"]
-    restrict_dismissals = each.value["required_pull_request_reviews"]["restrict_dismissals"]
+    restrict_dismissals   = each.value["required_pull_request_reviews"]["restrict_dismissals"]
     dismissal_restrictions = flatten([
       data.github_team.admin_team.node_id
     , each.value["required_pull_request_reviews"]["dismissal_restrictions"]])
