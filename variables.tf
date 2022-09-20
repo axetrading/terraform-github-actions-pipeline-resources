@@ -35,3 +35,37 @@ variable "admin_team" {
   type        = string
   description = "Name of one team to assign admin to - while it is possible to have mutliple teams with admin, our policy is to have one (it denotes responsibility of that team)."
 }
+
+variable "branch_protections" {
+  type = map(object({
+    pattern          = string
+    enforce_admins   = bool
+    allows_deletions = bool
+    required_status_checks = object({
+      strict   = bool
+      contexts = list(string)
+    })
+    required_pull_request_reviews = object({
+      dismiss_stale_reviews           = bool
+      restrict_dismissals             = bool
+      dismissal_restrictions          = list(string)
+      require_code_owner_reviews      = bool
+      required_approving_review_count = number
+    })
+  }))
+  description = "Map of branch protections that will be applied to github repo branches"
+  default     = {}
+}
+
+variable "create_main_branch" {
+  type        = bool
+  description = "Create the main branch of your github repo."
+  default     = true
+
+}
+
+variable "enable_branch_protection" {
+  type        = bool
+  default     = false
+  description = "Enable Github Branch protections on your github repo."
+}

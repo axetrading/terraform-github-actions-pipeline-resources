@@ -2,3 +2,15 @@ test/.terraform
 test/plan
 test/terraform.tfstate
 test/terraform.tfstate.backup
+terraform/.terraform
+terraform/plan
+terraform_dev/.terraform
+terraform_dev/plan
+**/.terraform/*
+.terraform.lock.hcl
+
+**/.DS_store
+**/.envrc
+**/.infracost
+**/plan
+**/*.tar.gz

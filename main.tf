@@ -20,10 +20,28 @@
  * `repo` and `read:org` oauth scopes.
  */
 
+locals {
+  branch_protections = var.enable_branch_protection && var.branch_protections != null ? var.branch_protections : {}
+
+}
+
 resource "github_repository" "this" {
   name               = var.name
   visibility         = "private"
   archive_on_destroy = true
+}
+
+resource "github_branch" "main" {
+  count      = var.create_main_branch ? 1 : 0
+  repository = github_repository.this.name
+  branch     = "main"
+}
+
+resource "github_branch_default" "default" {
+  count = var.create_main_branch ? 1 : 0
+
+  repository = github_repository.this.name
+  branch     = github_branch.main[0].branch
 }
 
 data "github_team" "admin_team" {
@@ -35,3 +53,31 @@ resource "github_team_repository" "admin" {
   repository = var.name
   permission = "admin"
 }
+
+resource "github_branch_protection" "main" {
+  for_each = local.branch_protections
+
+  repository_id = github_repository.this.name
+
+  pattern          = each.value["pattern"]
+  enforce_admins   = each.value["enforce_admins"]
+  allows_deletions = each.value["allows_deletions"]
+
+  required_status_checks {
+    strict   = each.value["required_status_checks"]["strict"]
+    contexts = each.value["required_status_checks"]["contexts"]
+  }
+
+  required_pull_request_reviews {
+    dismiss_stale_reviews = each.value["required_pull_request_reviews"]["dismiss_stale_reviews"]
+    restrict_dismissals   = each.value["required_pull_request_reviews"]["restrict_dismissals"]
+    dismissal_restrictions = flatten([
+      data.github_team.admin_team.node_id
+    , each.value["required_pull_request_reviews"]["dismissal_restrictions"]])
+    require_code_owner_reviews      = each.value["required_pull_request_reviews"]["require_code_owner_reviews"]
+    required_approving_review_count = each.value["required_pull_request_reviews"]["required_approving_review_count"]
+  }
+
+
+}
+
