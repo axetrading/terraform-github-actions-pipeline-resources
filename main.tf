@@ -21,7 +21,7 @@
  */
 
 locals {
-  branches = var.branches_to_create != [] && var.branches_to_create != null ? [for branch in var.branches_to_create : branch if branch != "main"] : []
+  branches           = var.branches_to_create != [] && var.branches_to_create != null ? [for branch in var.branches_to_create : branch if branch != "main"] : []
   branch_protections = var.enable_branch_protection && var.branch_protections != null ? var.branch_protections : {}
 
 }
@@ -34,7 +34,7 @@ resource "github_repository" "this" {
 }
 
 resource "github_branch" "this" {
-  for_each = toset(local.branches)
+  for_each   = toset(local.branches)
   repository = github_repository.this.name
   branch     = each.key
 }

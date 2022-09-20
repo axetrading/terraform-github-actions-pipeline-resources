@@ -71,13 +71,13 @@ variable "enable_branch_protection" {
 }
 
 variable "auto_init" {
-  type = bool
-  default = false
+  type        = bool
+  default     = false
   description = "(Optional) Set to true to produce an initial commit in the repository."
 }
 
 variable "branches_to_create" {
-  type = set(string)
-  default = []
+  type        = set(string)
+  default     = []
   description = "Branches to create on github repo."
 }
