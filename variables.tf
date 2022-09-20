@@ -57,7 +57,7 @@ variable "branch_protections" {
   default     = {}
 }
 
-variable "create_main_branch" {
+variable "create_branch" {
   type        = bool
   description = "Create the main branch of your github repo."
   default     = true
@@ -68,4 +68,16 @@ variable "enable_branch_protection" {
   type        = bool
   default     = false
   description = "Enable Github Branch protections on your github repo."
+}
+
+variable "auto_init" {
+  type = bool
+  default = false
+  description = "(Optional) Set to true to produce an initial commit in the repository."
+}
+
+variable "branches_to_create" {
+  type = set(string)
+  default = []
+  description = "Branches to create on github repo."
 }
