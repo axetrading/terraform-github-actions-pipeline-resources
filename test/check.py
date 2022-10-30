@@ -8,4 +8,4 @@ build_role_arn = outputs['build_role_arn']['value']
 repo_name = outputs['repo_name']['value']
 repo_url = outputs['repo_url']['value']
 
-from pprint import pprint
+assert repo_name == 'axetrading/terraform-github-actions-pipeline-resources-test-repo'

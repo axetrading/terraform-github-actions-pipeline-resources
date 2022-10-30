@@ -14,8 +14,15 @@ data "aws_iam_policy_document" "build_assume_role_policy" {
   }
 }
 
+module "build_role_name" {
+  source     = "axetrading/short-name/null"
+  version    = "1.0.0"
+  value      = "${var.name}-actions-build"
+  max_length = 64
+}
+
 resource "aws_iam_role" "build" {
-  name               = "${var.name}-actions-build"
+  name               = module.build_role_name.result
   assume_role_policy = data.aws_iam_policy_document.build_assume_role_policy.json
 }
 
@@ -25,7 +32,7 @@ resource "aws_iam_policy" "build" {
 }
 
 data "aws_dynamodb_table" "tflocks" {
-  name = var.tflocks_table_name
+  name = var.tf_deps.tflocks_table_name
 }
 
 data "aws_iam_policy_document" "build" {
@@ -46,7 +53,7 @@ data "aws_iam_policy_document" "build" {
       "s3:GetBucketLocation",
       "s3:ListBucket"
     ]
-    resources = ["arn:aws:s3:::${var.tfstate_bucket_name}"]
+    resources = ["arn:aws:s3:::${var.tf_deps.tfstate_bucket_name}"]
   }
   statement {
     effect = "Allow"
@@ -54,7 +61,7 @@ data "aws_iam_policy_document" "build" {
       "s3:GetObject",
       "s3:PutObject"
     ]
-    resources = ["arn:aws:s3:::${var.tfstate_bucket_name}/${var.name}/*"]
+    resources = ["arn:aws:s3:::${var.tf_deps.tfstate_bucket_name}/${var.name}/*"]
   }
   statement {
     effect = "Allow"
@@ -69,7 +76,7 @@ data "aws_iam_policy_document" "build" {
     condition {
       test     = "ForAllValues:StringLike"
       variable = "dynamodb:LeadingKeys"
-      values   = ["${var.tfstate_bucket_name}/${var.name}/*"]
+      values   = ["${var.tf_deps.tfstate_bucket_name}/${var.name}/*"]
     }
   }
   # permissions for provisioning resources

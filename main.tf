@@ -80,3 +80,12 @@ resource "github_branch_protection" "main" {
 
 }
 
+data "github_actions_public_key" "this" {
+  repository = github_repository.this.name
+}
+
+resource "github_actions_secret" "role" {
+  repository      = github_repository.this.name
+  secret_name     = "ROLE_ARN"
+  plaintext_value = aws_iam_role.build.arn
+}

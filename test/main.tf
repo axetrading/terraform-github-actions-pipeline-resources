@@ -1,8 +1,7 @@
 module "test" {
   source                      = "../"
-  name                        = "test-name"
-  tfstate_bucket_name         = module.s3-backend-dependencies.tfstate_bucket_name
-  tflocks_table_name          = module.s3-backend-dependencies.tflocks_table_name
+  name                        = "terraform-github-actions-pipeline-resources-test-repo"
+  tf_deps                     = module.s3-backend-dependencies
   allow_provisioning_services = ["sns"]
   create_branch               = true
   branches_to_create          = ["dev", "test", "prod", "main"]

@@ -3,14 +3,12 @@ variable "name" {
   description = "Name of the repo, used to name resources to make it easy to find the source"
 }
 
-variable "tfstate_bucket_name" {
-  type        = string
-  description = "Bucket to store tfstate, in order to set up permissions"
-}
-
-variable "tflocks_table_name" {
-  type        = string
-  description = "DynamoDB table to use to lock Terraform state"
+variable "tf_deps" {
+  type = object({
+    tfstate_bucket_name = string
+    tflocks_table_name  = string
+  })
+  description = "Terraform depdendencies - `tfstate_bucket_name` and `tflocks_table_name`"
 }
 
 variable "allow_provisioning_services" {
