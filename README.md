@@ -38,6 +38,12 @@ config via an environment variable rather than as provider config in terraform.
 | <a name="provider_aws"></a> [aws](#provider\_aws) | ~> 4.22 |
 | <a name="provider_github"></a> [github](#provider\_github) | ~> 4.0 |
 
+## Modules
+
+| Name | Source | Version |
+|------|--------|---------|
+| <a name="module_build_role_name"></a> [build\_role\_name](#module\_build\_role\_name) | axetrading/short-name/null | 1.0.0 |
+
 ## Resources
 
 | Name | Type |
@@ -47,6 +53,7 @@ config via an environment variable rather than as provider config in terraform.
 | [aws_iam_role_policy_attachment.build](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment) | resource |
 | [aws_iam_role_policy_attachment.build_policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment) | resource |
 | [aws_iam_role_policy_attachment.build_view_only](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment) | resource |
+| [github_actions_secret.role](https://registry.terraform.io/providers/integrations/github/latest/docs/resources/actions_secret) | resource |
 | [github_branch.this](https://registry.terraform.io/providers/integrations/github/latest/docs/resources/branch) | resource |
 | [github_branch_protection.main](https://registry.terraform.io/providers/integrations/github/latest/docs/resources/branch_protection) | resource |
 | [github_repository.this](https://registry.terraform.io/providers/integrations/github/latest/docs/resources/repository) | resource |
@@ -57,6 +64,7 @@ config via an environment variable rather than as provider config in terraform.
 | [aws_iam_policy_document.build](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
 | [aws_iam_policy_document.build_assume_role_policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
 | [aws_region.current](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/region) | data source |
+| [github_actions_public_key.this](https://registry.terraform.io/providers/integrations/github/latest/docs/data-sources/actions_public_key) | data source |
 | [github_team.admin_team](https://registry.terraform.io/providers/integrations/github/latest/docs/data-sources/team) | data source |
 
 ## Inputs
@@ -72,8 +80,7 @@ config via an environment variable rather than as provider config in terraform.
 | <a name="input_build_policy_arns"></a> [build\_policy\_arns](#input\_build\_policy\_arns) | IAM Policy ARNs to attach to the build role | `list(string)` | `[]` | no |
 | <a name="input_enable_branch_protection"></a> [enable\_branch\_protection](#input\_enable\_branch\_protection) | Enable Github Branch protections on your github repo. | `bool` | `false` | no |
 | <a name="input_name"></a> [name](#input\_name) | Name of the repo, used to name resources to make it easy to find the source | `string` | n/a | yes |
-| <a name="input_tflocks_table_name"></a> [tflocks\_table\_name](#input\_tflocks\_table\_name) | DynamoDB table to use to lock Terraform state | `string` | n/a | yes |
-| <a name="input_tfstate_bucket_name"></a> [tfstate\_bucket\_name](#input\_tfstate\_bucket\_name) | Bucket to store tfstate, in order to set up permissions | `string` | n/a | yes |
+| <a name="input_tf_deps"></a> [tf\_deps](#input\_tf\_deps) | Terraform depdendencies - `tfstate_bucket_name` and `tflocks_table_name` | <pre>object({<br>    tfstate_bucket_name = string<br>    tflocks_table_name  = string<br>  })</pre> | n/a | yes |
 
 ## Outputs
 
