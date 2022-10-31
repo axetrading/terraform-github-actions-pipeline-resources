@@ -3,11 +3,6 @@ variable "name" {
   description = "Name of the repo, used to name resources to make it easy to find the source"
 }
 
-variable "automation_username" {
-  type        = string
-  description = "Name of the system user performing the automation (the Github user that runs the pipeline)"
-}
-
 variable "tf_deps" {
   type = object({
     tfstate_bucket_name = string
