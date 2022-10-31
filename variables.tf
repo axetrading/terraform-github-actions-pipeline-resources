@@ -3,6 +3,11 @@ variable "name" {
   description = "Name of the repo, used to name resources to make it easy to find the source"
 }
 
+variable "automation_username" {
+  type        = string
+  description = "Name of the system user performing the automation (the Github user that runs the pipeline)"
+}
+
 variable "tf_deps" {
   type = object({
     tfstate_bucket_name = string
@@ -29,9 +34,9 @@ variable "build_policy_arns" {
   default     = []
 }
 
-variable "admin_team" {
+variable "maintainer_team" {
   type        = string
-  description = "Name of one team to assign admin to - while it is possible to have mutliple teams with admin, our policy is to have one (it denotes responsibility of that team)."
+  description = "Name of one team who maintains the pipeline."
 }
 
 variable "branch_protections" {
@@ -71,4 +76,9 @@ variable "branches_to_create" {
   type        = list(string)
   default     = []
   description = "Branches to create on github repo."
+}
+
+variable "archive_on_delete" {
+  type    = bool
+  default = true
 }

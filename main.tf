@@ -33,24 +33,30 @@ locals {
 resource "github_repository" "this" {
   name               = var.name
   visibility         = "private"
-  archive_on_destroy = true
+  archive_on_destroy = var.archive_on_delete
   auto_init          = var.auto_init
 }
+
+/*
+Feature doesn't seem to work - get the following error in the tests:
+
+    Error: Error querying GitHub branch reference axetrading/terraform-github-actions-pipeline-resources-test-repo (refs/heads/main): GET https://api.github.com/repos/axetrading/terraform-github-actions-pipeline-resources-test-repo/git/ref/heads/main: 409 Git Repository is empty. []
 
 resource "github_branch" "this" {
   for_each   = toset(local.branches)
   repository = github_repository.this.name
   branch     = each.key
 }
+*/
 
-data "github_team" "admin_team" {
-  slug = var.admin_team
+data "github_team" "maintainer_team" {
+  slug = var.maintainer_team
 }
 
-resource "github_team_repository" "admin" {
-  team_id    = data.github_team.admin_team.id
+resource "github_team_repository" "maintainer" {
+  team_id    = data.github_team.maintainer_team.id
   repository = var.name
-  permission = "admin"
+  permission = "maintain"
 }
 
 resource "github_branch_protection" "main" {
@@ -71,7 +77,7 @@ resource "github_branch_protection" "main" {
     dismiss_stale_reviews = each.value["required_pull_request_reviews"]["dismiss_stale_reviews"]
     restrict_dismissals   = each.value["required_pull_request_reviews"]["restrict_dismissals"]
     dismissal_restrictions = flatten([
-      data.github_team.admin_team.node_id
+      data.github_team.maintainer_team.node_id
     , each.value["required_pull_request_reviews"]["dismissal_restrictions"]])
     require_code_owner_reviews      = each.value["required_pull_request_reviews"]["require_code_owner_reviews"]
     required_approving_review_count = each.value["required_pull_request_reviews"]["required_approving_review_count"]
@@ -81,10 +87,16 @@ resource "github_branch_protection" "main" {
 }
 
 data "github_actions_public_key" "this" {
+  depends_on = [
+    github_repository.this
+  ]
   repository = github_repository.this.name
 }
 
 resource "github_actions_secret" "role" {
+  depends_on = [
+    github_repository.this
+  ]
   repository      = github_repository.this.name
   secret_name     = "ROLE_ARN"
   plaintext_value = aws_iam_role.build.arn

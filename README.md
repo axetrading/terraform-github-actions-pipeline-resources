@@ -54,10 +54,9 @@ config via an environment variable rather than as provider config in terraform.
 | [aws_iam_role_policy_attachment.build_policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment) | resource |
 | [aws_iam_role_policy_attachment.build_view_only](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment) | resource |
 | [github_actions_secret.role](https://registry.terraform.io/providers/integrations/github/latest/docs/resources/actions_secret) | resource |
-| [github_branch.this](https://registry.terraform.io/providers/integrations/github/latest/docs/resources/branch) | resource |
 | [github_branch_protection.main](https://registry.terraform.io/providers/integrations/github/latest/docs/resources/branch_protection) | resource |
 | [github_repository.this](https://registry.terraform.io/providers/integrations/github/latest/docs/resources/repository) | resource |
-| [github_team_repository.admin](https://registry.terraform.io/providers/integrations/github/latest/docs/resources/team_repository) | resource |
+| [github_team_repository.maintainer](https://registry.terraform.io/providers/integrations/github/latest/docs/resources/team_repository) | resource |
 | [aws_caller_identity.current](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/caller_identity) | data source |
 | [aws_dynamodb_table.tflocks](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/dynamodb_table) | data source |
 | [aws_iam_openid_connect_provider.github_oidc_provider](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_openid_connect_provider) | data source |
@@ -65,20 +64,22 @@ config via an environment variable rather than as provider config in terraform.
 | [aws_iam_policy_document.build_assume_role_policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
 | [aws_region.current](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/region) | data source |
 | [github_actions_public_key.this](https://registry.terraform.io/providers/integrations/github/latest/docs/data-sources/actions_public_key) | data source |
-| [github_team.admin_team](https://registry.terraform.io/providers/integrations/github/latest/docs/data-sources/team) | data source |
+| [github_team.maintainer_team](https://registry.terraform.io/providers/integrations/github/latest/docs/data-sources/team) | data source |
 
 ## Inputs
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_admin_team"></a> [admin\_team](#input\_admin\_team) | Name of one team to assign admin to - while it is possible to have mutliple teams with admin, our policy is to have one (it denotes responsibility of that team). | `string` | n/a | yes |
 | <a name="input_allow_provisioning_services"></a> [allow\_provisioning\_services](#input\_allow\_provisioning\_services) | AWS service to add to the policy for provisioning (e.g. "s3") | `list(string)` | `[]` | no |
+| <a name="input_archive_on_delete"></a> [archive\_on\_delete](#input\_archive\_on\_delete) | n/a | `bool` | `true` | no |
 | <a name="input_assume_role_arns"></a> [assume\_role\_arns](#input\_assume\_role\_arns) | IAM Roles ARNs to allow the build role to assume | `list(string)` | `[]` | no |
 | <a name="input_auto_init"></a> [auto\_init](#input\_auto\_init) | (Optional) Set to true to produce an initial commit in the repository. | `bool` | `false` | no |
+| <a name="input_automation_username"></a> [automation\_username](#input\_automation\_username) | Name of the system user performing the automation (the Github user that runs the pipeline) | `string` | n/a | yes |
 | <a name="input_branch_protections"></a> [branch\_protections](#input\_branch\_protections) | Map of branch protections that will be applied to github repo branches | <pre>map(object({<br>    pattern          = string<br>    enforce_admins   = bool<br>    allows_deletions = bool<br>    required_status_checks = object({<br>      strict   = bool<br>      contexts = list(string)<br>    })<br>    required_pull_request_reviews = object({<br>      dismiss_stale_reviews           = bool<br>      restrict_dismissals             = bool<br>      dismissal_restrictions          = list(string)<br>      require_code_owner_reviews      = bool<br>      required_approving_review_count = number<br>    })<br>  }))</pre> | `{}` | no |
 | <a name="input_branches_to_create"></a> [branches\_to\_create](#input\_branches\_to\_create) | Branches to create on github repo. | `list(string)` | `[]` | no |
 | <a name="input_build_policy_arns"></a> [build\_policy\_arns](#input\_build\_policy\_arns) | IAM Policy ARNs to attach to the build role | `list(string)` | `[]` | no |
 | <a name="input_enable_branch_protection"></a> [enable\_branch\_protection](#input\_enable\_branch\_protection) | Enable Github Branch protections on your github repo. | `bool` | `false` | no |
+| <a name="input_maintainer_team"></a> [maintainer\_team](#input\_maintainer\_team) | Name of one team who maintains the pipeline. | `string` | n/a | yes |
 | <a name="input_name"></a> [name](#input\_name) | Name of the repo, used to name resources to make it easy to find the source | `string` | n/a | yes |
 | <a name="input_tf_deps"></a> [tf\_deps](#input\_tf\_deps) | Terraform depdendencies - `tfstate_bucket_name` and `tflocks_table_name` | <pre>object({<br>    tfstate_bucket_name = string<br>    tflocks_table_name  = string<br>  })</pre> | n/a | yes |
 
