@@ -93,6 +93,14 @@ data "aws_iam_policy_document" "build" {
       effect    = "Allow"
     }
   }
+  dynamic "statement" {
+    for_each = keys(var.environments)
+    content {
+      actions   = ["sts:AssumeRole"]
+      resources = var.environments[each.value].role_arn
+      effect    = "Allow"
+    }
+  }
 }
 
 resource "aws_iam_role_policy_attachment" "build" {

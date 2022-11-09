@@ -27,7 +27,6 @@
 locals {
   branches           = var.branches_to_create != [] && var.branches_to_create != null ? [for branch in var.branches_to_create : branch if branch != "main"] : []
   branch_protections = var.enable_branch_protection && var.branch_protections != null ? var.branch_protections : {}
-
 }
 
 resource "github_repository" "this" {
@@ -100,4 +99,19 @@ resource "github_actions_secret" "role" {
   repository      = github_repository.this.name
   secret_name     = "ROLE_ARN"
   plaintext_value = aws_iam_role.build.arn
+}
+
+resource "github_repository_environment" "this" {
+  for_each    = var.environments
+  environment = each.key
+  repository  = github_repository.this.name
+}
+
+resource "github_actions_environment_secret" "this" {
+  for_each        = var.environments
+  repository      = github_repository.this.name
+  environment     = each.key
+  secret_name     = "role_arn"
+  plaintext_value = each.value.role_arn
+  depends_on      = [github_repository.this]
 }

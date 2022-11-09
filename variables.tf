@@ -77,3 +77,10 @@ variable "archive_on_delete" {
   type    = bool
   default = true
 }
+
+variable "environments" {
+  type = map(object({
+    role_arn = string
+  }))
+  default = {}
+}
