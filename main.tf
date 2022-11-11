@@ -111,7 +111,7 @@ resource "github_actions_environment_secret" "this" {
   for_each        = var.environments
   repository      = github_repository.this.name
   environment     = each.key
-  secret_name     = "role_arn"
+  secret_name     = "ASSUME_ROLE_ARN"
   plaintext_value = each.value.role_arn
   depends_on      = [github_repository.this]
 }

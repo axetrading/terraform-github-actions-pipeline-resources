@@ -94,10 +94,10 @@ data "aws_iam_policy_document" "build" {
     }
   }
   dynamic "statement" {
-    for_each = keys(var.environments)
+    for_each = var.environments
     content {
       actions   = ["sts:AssumeRole"]
-      resources = var.environments[each.value].role_arn
+      resources = [statement.value.role_arn]
       effect    = "Allow"
     }
   }
