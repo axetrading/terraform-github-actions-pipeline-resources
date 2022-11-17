@@ -37,6 +37,7 @@ config via an environment variable rather than as provider config in terraform.
 |------|---------|
 | <a name="provider_aws"></a> [aws](#provider\_aws) | ~> 4.22 |
 | <a name="provider_github"></a> [github](#provider\_github) | ~> 4.0 |
+| <a name="provider_null"></a> [null](#provider\_null) | n/a |
 
 ## Modules
 
@@ -55,10 +56,9 @@ config via an environment variable rather than as provider config in terraform.
 | [aws_iam_role_policy_attachment.build_view_only](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment) | resource |
 | [github_actions_environment_secret.this](https://registry.terraform.io/providers/integrations/github/latest/docs/resources/actions_environment_secret) | resource |
 | [github_actions_secret.role](https://registry.terraform.io/providers/integrations/github/latest/docs/resources/actions_secret) | resource |
-| [github_branch_protection.main](https://registry.terraform.io/providers/integrations/github/latest/docs/resources/branch_protection) | resource |
 | [github_repository.this](https://registry.terraform.io/providers/integrations/github/latest/docs/resources/repository) | resource |
-| [github_repository_environment.this](https://registry.terraform.io/providers/integrations/github/latest/docs/resources/repository_environment) | resource |
 | [github_team_repository.maintainer](https://registry.terraform.io/providers/integrations/github/latest/docs/resources/team_repository) | resource |
+| [null_resource.environments](https://registry.terraform.io/providers/hashicorp/null/latest/docs/resources/resource) | resource |
 | [aws_caller_identity.current](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/caller_identity) | data source |
 | [aws_dynamodb_table.tflocks](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/dynamodb_table) | data source |
 | [aws_iam_openid_connect_provider.github_oidc_provider](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_openid_connect_provider) | data source |
@@ -76,10 +76,7 @@ config via an environment variable rather than as provider config in terraform.
 | <a name="input_archive_on_delete"></a> [archive\_on\_delete](#input\_archive\_on\_delete) | n/a | `bool` | `true` | no |
 | <a name="input_assume_role_arns"></a> [assume\_role\_arns](#input\_assume\_role\_arns) | IAM Roles ARNs to allow the build role to assume | `list(string)` | `[]` | no |
 | <a name="input_auto_init"></a> [auto\_init](#input\_auto\_init) | (Optional) Set to true to produce an initial commit in the repository. | `bool` | `false` | no |
-| <a name="input_branch_protections"></a> [branch\_protections](#input\_branch\_protections) | Map of branch protections that will be applied to github repo branches | <pre>map(object({<br>    pattern          = string<br>    enforce_admins   = bool<br>    allows_deletions = bool<br>    required_status_checks = object({<br>      strict   = bool<br>      contexts = list(string)<br>    })<br>    required_pull_request_reviews = object({<br>      dismiss_stale_reviews           = bool<br>      restrict_dismissals             = bool<br>      dismissal_restrictions          = list(string)<br>      require_code_owner_reviews      = bool<br>      required_approving_review_count = number<br>    })<br>  }))</pre> | `{}` | no |
-| <a name="input_branches_to_create"></a> [branches\_to\_create](#input\_branches\_to\_create) | Branches to create on github repo. | `list(string)` | `[]` | no |
 | <a name="input_build_policy_arns"></a> [build\_policy\_arns](#input\_build\_policy\_arns) | IAM Policy ARNs to attach to the build role | `list(string)` | `[]` | no |
-| <a name="input_enable_branch_protection"></a> [enable\_branch\_protection](#input\_enable\_branch\_protection) | Enable Github Branch protections on your github repo. | `bool` | `false` | no |
 | <a name="input_environments"></a> [environments](#input\_environments) | n/a | <pre>map(object({<br>    role_arn = string<br>  }))</pre> | `{}` | no |
 | <a name="input_maintainer_team"></a> [maintainer\_team](#input\_maintainer\_team) | Name of one team who maintains the pipeline. | `string` | n/a | yes |
 | <a name="input_name"></a> [name](#input\_name) | Name of the repo, used to name resources to make it easy to find the source | `string` | n/a | yes |

@@ -34,43 +34,10 @@ variable "maintainer_team" {
   description = "Name of one team who maintains the pipeline."
 }
 
-variable "branch_protections" {
-  type = map(object({
-    pattern          = string
-    enforce_admins   = bool
-    allows_deletions = bool
-    required_status_checks = object({
-      strict   = bool
-      contexts = list(string)
-    })
-    required_pull_request_reviews = object({
-      dismiss_stale_reviews           = bool
-      restrict_dismissals             = bool
-      dismissal_restrictions          = list(string)
-      require_code_owner_reviews      = bool
-      required_approving_review_count = number
-    })
-  }))
-  description = "Map of branch protections that will be applied to github repo branches"
-  default     = {}
-}
-
-variable "enable_branch_protection" {
-  type        = bool
-  default     = false
-  description = "Enable Github Branch protections on your github repo."
-}
-
 variable "auto_init" {
   type        = bool
   default     = false
   description = "(Optional) Set to true to produce an initial commit in the repository."
-}
-
-variable "branches_to_create" {
-  type        = list(string)
-  default     = []
-  description = "Branches to create on github repo."
 }
 
 variable "archive_on_delete" {
