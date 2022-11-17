@@ -80,10 +80,13 @@ data "aws_iam_policy_document" "build" {
     }
   }
   # permissions for provisioning resources
-  statement {
-    effect    = "Allow"
-    actions   = formatlist("%s:*", var.allow_provisioning_services)
-    resources = ["*"]
+  dynamic "statement" {
+    for_each = length(var.allow_provisioning_services) > 0 ? [1] : []
+    content {
+      effect    = "Allow"
+      actions   = formatlist("%s:*", var.allow_provisioning_services)
+      resources = ["*"]
+    }
   }
   dynamic "statement" {
     for_each = length(var.assume_role_arns) > 0 ? [1] : []
