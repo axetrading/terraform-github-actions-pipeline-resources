@@ -26,7 +26,7 @@
 
 resource "github_repository" "this" {
   name               = var.name
-  visibility         = "private"
+  visibility         = "internal"
   archive_on_destroy = var.archive_on_delete
   auto_init          = var.auto_init
 }
