@@ -46,7 +46,18 @@ data "aws_iam_policy_document" "build" {
       "*"
     ]
   }
-
+  statement {
+    sid = "AllowKMS"
+    actions = [
+      "kms:Encrypt*",
+      "kms:Decrypt*",
+      "kms:ReEncrypt*",
+      "kms:GenerateDataKey*",
+      "kms:Describe*"
+    ]
+    effect    = "Allow"
+    resources = ["*"]
+  }
   statement {
     effect = "Allow"
     actions = [
