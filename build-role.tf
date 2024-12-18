@@ -15,8 +15,7 @@ data "aws_iam_policy_document" "build_assume_role_policy" {
 }
 
 module "build_role_name" {
-  source     = "axetrading/short-name/null"
-  version    = "1.0.0"
+  source     = "git@github.com:axetrading/terraform-null-short-name.git?ref=v1.0.0"
   value      = "${var.name}-actions-build"
   max_length = 64
 }

@@ -1,6 +1,5 @@
 module "s3-backend-dependencies" {
-  source  = "axetrading/s3-backend-dependencies/axetrading"
-  version = "2.1.0"
+  source = "git@github.com:axetrading/terraform-axetrading-s3-backend-dependencies.git?ref=v2.1.0"
 }
 
 resource "aws_iam_openid_connect_provider" "github_actions" {
